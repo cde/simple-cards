@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Form from './Form';
 
 // var React = require('react');
 // var ReactDOM = require('react-dom');
@@ -10,9 +11,7 @@ var Card = React.createClass({
   },
   componentDidMount: function(){
     var component = this;
-    console.log(this.props.login);
     $.get("https://api.github.com/users/" + this.props.login, function(data){
-      // console.log(data);
       component.setState(data);
     });
   },
@@ -36,14 +35,23 @@ var Main = React.createClass({
   getInitialState: function() {
     return {logins: mockLogins};
   },
+  addCard: function(loginToAdd) {
+    let loginsList = this.state.logins;
+    loginsList.unshift({
+      id: Date.now(),
+      login: loginToAdd
+    })
+    this.setState({logins: loginsList});
+  },
+  
   render: function(){
-    console.log(this.state.logins);
+    console.log( this.state.logins);
     var cards = this.state.logins.map(function(login) {
-      return (<Card key={login.id}login={login.login} />);
+      return (<Card key={login.id} login={login.login} />);
     });
-    console.log(cards);  
     return(
       <div>
+        <Form addCard={this.addCard}/>
         {cards}
       </div>
     )
