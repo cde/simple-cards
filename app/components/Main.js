@@ -1,9 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Form from './Form';
+// import Card from './Card';
 
-// var React = require('react');
-// var ReactDOM = require('react-dom');
 
 var Card = React.createClass({
   getInitialState: function(){
@@ -17,12 +16,17 @@ var Card = React.createClass({
   },
   render: function() {
     return (
-      <div>
-        <img src={this.state.avatar_url} width="80" />
-        <h3>{this.state.name}</h3>
-        <hr/>
-      </div>
-
+      <li className="collection-item avatar">
+        <img src={this.state.avatar_url} alt="" className="circle" />
+        <span className="title">{this.state.name}</span>
+        <p>{this.state.login} <br />
+          <span className="title">
+            {this.state.email}
+          </span>
+        </p>
+        <a href="#!" className="secondary-content"><i className="material-icons">grade</i></a>
+      </li>
+      
     )
   }
 });
@@ -47,12 +51,15 @@ var Main = React.createClass({
   render: function(){
     console.log( this.state.logins);
     var cards = this.state.logins.map(function(login) {
-      return (<Card key={login.id} login={login.login} />);
+      return (<Card key={login.id} login={login.login} /> );
     });
     return(
-      <div>
+      <div className="col-lg-6">
         <Form addCard={this.addCard}/>
-        {cards}
+        <ul className="collection">
+          {cards}
+        </ul>
+      
       </div>
     )
   }
